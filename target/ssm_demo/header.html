@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<script>
+    $(function () {
+        //查询用户信息
+        $.get("/ssm_demo/customer/getLoginTelno",{},function (result) {
+            var data=result.data;
+            if (data!=null){
+                var customerTelno="欢迎，"+data.customerTelno;
+                $("#span_username").html(customerTelno);
+                $(".login_out").hide();
+                $(".login").show();
+            } else {
+                $(".login_out").show();
+                $(".login").hide();
+
+            }
+
+        });
+
+    });
+    $(".logout").click(function () {
+        $.get("/ssm_demo/customer/logout",{},function (result) {
+
+            var logoutStatus=result.status;
+            if (logoutStatus=="SUCCESS"){
+                //退出成功
+                $(".login_out").show();
+                $(".login").hide();
+            }
+
+        });
+    });
+</script>
+
+    <header id="header">
+        <!--未登录状态-->
+        <div class="login_out">
+            <a href="/ssm_demo/customer/goToLogin">登录</a>
+            <a href="">注册</a>
+        </div>
+
+        <!--登录状态-->
+        <div class="login">
+            <a href="/ssm_demo/customer/goToInfo"><span id="span_username"></span></a>
+            <a href="javascript:;" class="logout">退出</a>
+            <a href="/ssm_demo/note/goToMyNoteList" class="btn" style="background-color: #ffc900;color: white;margin-left: 20px">我的游记</a>
+            <a href="/ssm_demo/note/goToAdd" class="btn" style="background-color: #ffc900;color: white;margin-left: 20px">写游记</a>
+        </div>
+
+
+    </header>
+
+
+</html>
